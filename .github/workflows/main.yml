@@ -1,5 +1,4 @@
 ### Application Level Image CI - Wordpress
-### Dave Conroy <tiredofit@github>
 
 name: 'Multi PHP Version Build'
 on:

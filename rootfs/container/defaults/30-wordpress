@@ -1,13 +1,14 @@
-#!/command/with-contenv bash
+# SPDX-FileCopyrightText: © 2025 Nfrastack <code@nfrastack.com>
+#
+# SPDX-License-Identifier: MIT
 
-### Set Defaults
 ADMIN_USER=${ADMIN_USER:-"admin"}
 ENABLE_HTTPS_REVERSE_PROXY=${ENABLE_HTTPS_REVERSE_PROXY:-"TRUE"}
 DB_CHARSET=${DB_CHARSET:-"utf8mb4"}
 DB_PREFIX=${DB_PREFIX:-"wp_"}
 DB_PORT=${DB_PORT:-"3306"}
 ROTATE_KEYS=${ROTATE_KEYS:-"FALSE"}
-SITE_TITLE=${SITE_TITLE:-"Wordpress Docker Site"}
+SITE_TITLE=${SITE_TITLE:-"Nfrastack Wordpress Docker Site"}
 SITE_LOCALE=${SITE_LOCALE:-"en_US"}
 SITE_URL_UPDATE_MODE=${SITE_URL_UPDATE_MODE="ALL"}
 UPDATE_MODE=${UPDATE_MODE:-"minor"}

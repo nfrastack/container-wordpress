@@ -1,0 +1,34 @@
+name: build
+
+on:
+  workflow_call
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      matrix:
+        build:
+          - { php_version: "8.4", php_version_latest: "true", distro: "alpine", distro_variant: "3.22", latest: "true", distro_latest: "true", arch: "linux/amd64,linux/arm64" }
+          #- { php_version: "8.3", php_version_latest: "true", distro: "alpine", distro_variant: "3.22", latest: "false", distro_latest: "false", arch: "linux/amd64,linux/arm64" }
+          #- { php_version: "8.2", php_version_latest: "true", distro: "alpine", distro_variant: "3.22", latest: "false", distro_latest: "false", arch: "linux/amd64,linux/arm64" }
+          #- { php_version: "8.4", php_version_latest: "false", distro: "debian", distro_variant: "trixie", latest: "false", distro_latest: "true", arch: "linux/amd64,linux/arm64" }
+          #- { php_version: "8.3", php_version_latest: "false", distro: "debian", distro_variant: "trixie", latest: "false", distro_latest: "false", arch: "linux/amd64,linux/arm64" }
+          #- { php_version: "8.2", php_version_latest: "false", distro: "debian", distro_variant: "trixie", latest: "false", distro_latest: "false", arch: "linux/amd64,linux/arm64" }
+    env:
+       BASE_IMAGE: "ghcr.io/nfrastack/container-nginx-php-fpm"
+       PHP_BASE: ${{ matrix.build.php_version }}
+       DISTRO: ${{ matrix.build.distro }}
+       DISTRO_VARIANT: ${{ matrix.build.distro_variant }}
+       LATEST: ${{ matrix.build.latest || 'true' }}
+       DISTRO_LATEST: ${{ matrix.build.distro_latest || 'false' }}
+       PHP_VERSION_LATEST: ${{ matrix.build.php_version_latest || 'false' }}
+       ARCH: ${{ matrix.build.arch || 'linux/amd64,linux/arm64' }}
+    steps:
+      - name: Build Image
+        uses: nfrastack/gha/.github/actions/build_phpfpm_dependent_multi_image@main
+        with:
+          docker_username: ${{ secrets.DOCKER_USERNAME }}
+          docker_password: ${{ secrets.DOCKER_PASSWORD }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}

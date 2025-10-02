@@ -1,12 +1,14 @@
-#!/command/with-contenv bash
+# SPDX-FileCopyrightText: © 2025 Nfrastack <code@nfrastack.com>
+#
+# SPDX-License-Identifier: MIT
 
-bootstrap_filesystem() {
-    mkdir -p "${NGINX_WEBROOT}"
-    chown "${NGINX_USER}":"${NGINX_GROUP}" "${NGINX_WEBROOT}"
+wordpress_bootstrap_filesystem() {
+    create_folder \
+                "${NGINX_WEBROOT}" \
+                "${NGINX_USER}":"${NGINX_GROUP}" 755
 }
 
-configure_nginx() {
-    ### Perform Nginx reverse proxy modifications
+wordpress_configure_nginx() {
     if var_true "${ENABLE_HTTPS_REVERSE_PROXY}" ; then
         sed -i "s|^fastcgi_param  HTTPS .*$|fastcgi_param  HTTPS 'on';|g" /etc/nginx/fastcgi_params
         PROTOCOL="https://"
@@ -17,25 +19,25 @@ configure_nginx() {
     fi
 }
 
-create_bash_alias() {
+wordpress_create_bash_alias() {
     cat >> /root/.bashrc <<EOF
 function wp-cli() {
       export oldpwd="\$(pwd)"
       cd ${NGINX_WEBROOT}
-      sudo -u ${NGINX_USER} /usr/bin/wp-cli "\$@"
+      sudo -u ${NGINX_USER} /usr/local/bin/wp-cli "\$@"
       cd "\${oldpwd}"
 }
 EOF
 }
 
-finalize_permissions() {
+wordpress_finalize_permissions() {
     if var_true "${NGINX_FORCE_RESET_PERMISSIONS}" ; then
         chown -R "${NGINX_USER}":"${NGINX_GROUP}" "${NGINX_WEBROOT}"
     fi
 }
 
-install_wordpress() {
-    transform_file_var \
+wordpress_install_application() {
+    transform_var file \
                     ADMIN_EMAIL \
                     ADMIN_USER \
                     ADMIN_PASS \

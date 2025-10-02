@@ -1,7 +1,7 @@
 services:
 
   wordpress-app:
-    image: tiredofit/wordpress:latest
+    image: docker.io/nfrastack/wordpress:latest
     container_name: wordpress-app
     labels:
       - traefik.enable=true
@@ -40,7 +40,7 @@ services:
     restart: always
 
   wordpress-db:
-    image: tiredofit/mariadb
+    image: docker.io/tiredofit/mariadb
     container_name: wordpress-db
     volumes:
       - ./db:/var/lib/mysql
@@ -49,29 +49,26 @@ services:
       - DB_NAME=wordpress
       - DB_USER=wordpress
       - DB_PASS=userpassword
-
-      - CONTAINER_NAME=wordpress-db
     networks:
       - services
     restart: always
 
   wordpress-db-backup:
     container_name: wordpress-db-backup
-    image: tiredofit/db-backup
+    image: docker.io/tiredofit/db-backup
     links:
      - wordpress-db
     volumes:
       - ./dbbackup:/backup
     environment:
-      - DB_HOST=wordpress-db
-      - DB_TYPE=mariadb
-      - DB_NAME=wordpress
-      - DB_USER=wordpress
-      - DB_PASS=userpassword
-      - DB_DUMP_FREQ=1440
-      - DB_DUMP_BEGIN=0000
-      - DB_CLEANUP_TIME=8640
-      - COMPRESSION=BZ
+      - DB01_HOST=wordpress-db
+      - DB01_TYPE=mariadb
+      - DB01_NAME=wordpress
+      - DB01_USER=wordpress
+      - DB01_PASS=userpassword
+      - DB01_DUMP_FREQ=1440
+      - DB01_DUMP_BEGIN=0000
+      - DB01_CLEANUP_TIME=8640
     networks:
       - services
     restart: always

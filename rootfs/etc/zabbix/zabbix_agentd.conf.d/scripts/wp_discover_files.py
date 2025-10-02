@@ -1,4 +1,7 @@
 #!/usr/bin/python
+# SPDX-FileCopyrightText: © 2025 Nfrastack <code@nfrastack.com>
+#
+# SPDX-License-Identifier: MIT
 
 import os,json,sys,re
 from base64 import b64decode

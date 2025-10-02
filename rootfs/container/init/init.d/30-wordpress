@@ -1,0 +1,21 @@
+#!/command/with-contenv bash
+# SPDX-FileCopyrightText: © 2025 Nfrastack <code@nfrastack.com>
+#
+# SPDX-License-Identifier: MIT
+
+source /container/base/functions/container/init
+prepare_service 10-nginx
+prepare_service 30-wordpress
+SERVICE_NAME="wordpress"
+
+sanity_db mariadb
+db_ready mariadb
+sanity_var SITE_URL "Site URL"
+wordpress_bootstrap_filesystem
+wordpress_configure_nginx
+wordpress_install_application
+wordpress_create_bash_alias
+wordpress_finalize_permissions
+print_info "Wordpress Initialization Complete, now starting webserver and PHP engine"
+
+liftoff

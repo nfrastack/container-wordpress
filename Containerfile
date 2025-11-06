@@ -52,6 +52,9 @@ RUN echo "" && \
     package install \
                         WORDPRESS_RUN_DEPS \
                     && \
+    php-ext prepare && \
+    php-ext reset && \
+    php-ext enable core && \
     curl -o /usr/local/bin/wp-cli https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
     chmod +x /usr/local/bin/wp-cli && \
     package cleanup

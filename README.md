@@ -2,7 +2,7 @@
 
 ## About
 
-This repository will build a conatiner image for running [Laravel](https://laravel.net/) applications either in a development or production capacity, including [Nginx](https://www.nginx.org) w/[PHP-FPM](https://php.net).
+This repository will build a container image for running [Laravel](https://laravel.net/) applications either in a development or production capacity, including [Nginx](https://www.nginx.org) w/[PHP-FPM](https://php.net).
 
 ## Maintainer
 

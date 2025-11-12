@@ -1,7 +1,7 @@
 services:
 
   wordpress-app:
-    image: docker.io/nfrastack/wordpress:latest
+    image: docker.io/nfrastack/wordpress
     container_name: wordpress-app
     labels:
       - traefik.enable=true
@@ -40,10 +40,10 @@ services:
     restart: always
 
   wordpress-db:
-    image: docker.io/tiredofit/mariadb
+    image: docker.io/nfrastack/mariadb:11.8
     container_name: wordpress-db
     volumes:
-      - ./db:/var/lib/mysql
+      - ./db:/data
     environment:
       - ROOT_PASS=password
       - DB_NAME=wordpress

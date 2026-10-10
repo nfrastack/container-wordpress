@@ -55,12 +55,17 @@ services:
 
   wordpress-db-backup:
     container_name: wordpress-db-backup
-    image: docker.io/tiredofit/db-backup
+    image: docker.io/nfrastack/db-backup
     links:
      - wordpress-db
     volumes:
       - ./dbbackup:/backup
     environment:
+      - TIMEZONE=America/Vancouver
+      - CONTAINER_NAME=wordpress-db-backup
+
+      - STATS_ENABLED=TRUE
+
       - DB01_HOST=wordpress-db
       - DB01_TYPE=mariadb
       - DB01_NAME=wordpress
